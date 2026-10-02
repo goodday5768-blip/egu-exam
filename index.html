@@ -239,7 +239,7 @@ let nPick = PC && !D.pu ? store.get('npick', 0) : 0;      // 0 = 자동(고른 �
 if (nPick && (nPick < MIN || nPick > D.cap)) nPick = 0;
 const countFor = n => Math.max(MIN, Math.min(D.cap, nPick || n));   // PC: 이번 회 문제 수
 // per_unit·chapter_full(2026-10-03 Grammar in Use 앱): 고른 칸마다 D.pu문제, Chapter 전체를 고르면 D.cf문제, 언제나 최대 D.cap — 문제 수 칸은 숨긴다
-const fullChapter = list => D.cf && D.groups.some(g => g.m.length > 1 && g.m.every(pi => list.includes(pi)));
+const fullChapter = list => D.cf && D.groups.some(g => g.m.length && g.m.every(pi => list.includes(pi)));   // 칸이 하나뿐인 Chapter(BGIU Ch.11)도 전체를 고르면 20문제
 const countSel = list => D.pu ? Math.min(D.cap, Math.max(D.pu * list.length, fullChapter(list) ? D.cf : 0)) : countFor(list.length);
 // 배점: 100점을 N문제에 정수로 나눈다. 나머지는 앞 문제부터 1점씩 더 준다(예: 13문제 → 8점×9 + 7점×4).
 const pointsFor = N => { const q = Math.floor(100 / N), r = 100 - q * N; return Array.from({length: N}, (_, i) => q + (i < r ? 1 : 0)); };
